@@ -11,10 +11,10 @@ CFLAGS = -Wall
 all : $(TARGET1) $(TARGET2)
 
 .PHONY : execprog1
-client : $(TARGET1)
+execprog1 : $(TARGET1)
 
 .PHONY : execprog2
-server : $(TARGET2)
+execprog2 : $(TARGET2)
 
 .PHONY : clean
 clean:
