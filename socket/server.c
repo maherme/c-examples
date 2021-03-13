@@ -21,7 +21,7 @@ int main(void){
     int sockfd, connfd;
     unsigned int len;
     struct sockaddr_in servaddr, client;
-    int len_rx, len_tx = 0;
+    int len_rx = 0;
     char buff_tx[BUF_SIZE] = "Hello client, I am the server.";
     char buff_rx[BUF_SIZE];
 
