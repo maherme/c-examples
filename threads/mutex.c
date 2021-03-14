@@ -23,6 +23,8 @@ static void *thread1_routine(void *arg){
         count++;
         pthread_mutex_unlock(&mutex);
     }
+
+    return 0;
 }
 
 static void *thread2_routine(void *arg){
@@ -32,6 +34,8 @@ static void *thread2_routine(void *arg){
         count--;
         pthread_mutex_unlock(&mutex);
     }
+
+    return 0;
 }
 
 static void error_exit(char *strerr){

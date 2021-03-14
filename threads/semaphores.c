@@ -17,6 +17,8 @@ static void *thread1_routine(void *arg){
         counter++;
         sem_post(&sem1);
     }
+
+    return 0;
 }
 
 static void *thread2_routine(void *arg){
@@ -26,6 +28,8 @@ static void *thread2_routine(void *arg){
         counter--;
         sem_post(&sem1);
     }
+
+    return 0;
 }
 
 int main(void){

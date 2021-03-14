@@ -25,6 +25,8 @@ static void *thread_routine(void *arg){
             close(fd);
         }
     }
+
+    return 0;
 }
 
 int main(int argc, char *argv[]){
