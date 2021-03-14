@@ -8,7 +8,7 @@ CFLAGS = -Wall
 .PHONY : all
 all : $(TARGET1)
 
-.PHONY : watch
+.PHONY : mmap
 mmap : $(TARGET1)
 
 .PHONY : clean
