@@ -1,3 +1,18 @@
+/*
+ * This is a program that decrements a numeric value  which is given as parameter.
+ * The program creates as many threads as the value given as parameter, and uses these threads for
+ * decrementing the numeric value.
+ *
+ * So an execution like this: "$ a.out 5" will give this output:
+ * Number of threads to be created: 5
+ * Thread id is: 5
+ * Thread id is: 4
+ * Thread id is: 3
+ * Thread id is: 2
+ * Thread id is: 1
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
