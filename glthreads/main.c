@@ -30,7 +30,7 @@ create_employ(employ_t *employ, employ_t const *employ_handler)
 }
 
 static void
-print_employ(employ_t *employ)
+print_employ(employ_t const *employ)
 {
     printf("\tName: %s\n", employ->name);
     printf("\tSalary: %d\n", employ->salary);
@@ -40,7 +40,7 @@ print_employ(employ_t *employ)
 }
 
 static void
-print_list(glthread_t* employ_list)
+print_list(glthread_t const *employ_list)
 {
     employ_t *tmp;
 
