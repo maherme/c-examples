@@ -3,9 +3,6 @@
 
 #include "routing_table.h"
 
-void *
-publisher_thread_fn(void *arg);
-
 void
 create_publisher_thread(routing_table_t *publisher_routing_table);
 

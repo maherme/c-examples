@@ -63,7 +63,7 @@ main_menu(routing_table_t *publisher_routing_table)
     }
 }
 
-void *
+static void *
 publisher_thread_fn(void *arg)
 {
     /* Don't need to use calloc because the main_menu never returns, so this automatic variable never is
@@ -104,7 +104,7 @@ create_publisher_thread(routing_table_t *publisher_routing_table)
         handle_error_en(s, "pthread_attr_setdetachstate");
     }
 
-    s = pthread_create(&publisher_thread, &attr, publisher_thread_fn, (void*)publisher_routing_table);
+    s = pthread_create(&publisher_thread, &attr, publisher_thread_fn, publisher_routing_table);
     if(0 != s)
     {
         handle_error_en(s, "pthread_create");

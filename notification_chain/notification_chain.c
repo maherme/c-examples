@@ -86,3 +86,23 @@ nfc_delete(nfc_t *nfc)
 
     free(nfc);
 }
+
+char *
+nfc_get_str_operation_code(nfc_type_update_t nfc_operation_code)
+{
+    switch(nfc_operation_code)
+    {
+        case NFC_UNKNOWN:
+            return "NFC_UNKNOWN";
+        case NFC_SUB:
+            return "NFC_SUB";
+        case NFC_ADD:
+            return "NFC_ADD";
+        case NFC_MOD:
+            return "NFC_MOD";
+        case NFC_DEL:
+            return "NFC_DEL";
+        default:
+            return NULL;
+    }
+}

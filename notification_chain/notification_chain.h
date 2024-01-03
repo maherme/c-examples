@@ -11,6 +11,7 @@
 typedef enum
 {
     NFC_UNKNOWN,
+    NFC_SUB,
     NFC_ADD,
     NFC_MOD,
     NFC_DEL,
@@ -46,5 +47,8 @@ nfc_create(char *nfc_name, int size_name);
 
 void
 nfc_delete(nfc_t *nfc);
+
+char *
+nfc_get_str_operation_code(nfc_type_update_t nfc_operation_code);
 
 #endif /* NOTIFICATION_CHAIN_H */
