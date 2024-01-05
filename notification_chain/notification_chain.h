@@ -24,6 +24,7 @@ typedef struct
     char key[MAX_NOTIFY_KEY_SIZE];
     size_t key_size;
     bool is_key_set;
+    int subscriptor_id;
     nfc_app_cb app_cb;
     glthread_node_t glnode;
 } nfc_element_t;
@@ -38,7 +39,7 @@ void
 nfc_register(nfc_t *nfc, nfc_element_t *nfc_element);
 
 void
-nfc_invoke(nfc_t *nfc, int subscriber_id,
+nfc_invoke(nfc_t *nfc,
            void *arg, size_t arg_size, nfc_type_update_t nfc_type_update,
            char *key, size_t key_size);
 

@@ -4,8 +4,10 @@
 #include <pthread.h>
 #include <stdio.h>
 
+static routing_table_t publisher_routing_table;
+
 static void
-main_menu(routing_table_t *publisher_routing_table)
+main_menu()
 {
     int choice;
 
@@ -38,7 +40,7 @@ main_menu(routing_table_t *publisher_routing_table)
                     printf("Enter gateway IP:");
                     scanf("%s", gw);
 
-                    routing_table_add_entry(publisher_routing_table, dest, (char)mask, gw, oif);
+                    routing_table_add_entry(&publisher_routing_table, dest, (char)mask, gw, oif);
                 }
                 break;
             case 2:
@@ -51,11 +53,11 @@ main_menu(routing_table_t *publisher_routing_table)
                     printf("Mask:");
                     scanf("%d", &mask);
 
-                    routing_table_delete_enty(publisher_routing_table, dest, (char)mask);
+                    routing_table_delete_enty(&publisher_routing_table, dest, (char)mask);
                 }
                 break;
             case 3:
-                routing_table_dump(publisher_routing_table);
+                routing_table_dump(&publisher_routing_table);
                 break;
             default:
                 break;
@@ -66,11 +68,6 @@ main_menu(routing_table_t *publisher_routing_table)
 static void *
 publisher_thread_fn(void *arg)
 {
-    /* Don't need to use calloc because the main_menu never returns, so this automatic variable never is
-     * destroy from the stack.
-     */
-    routing_table_t publisher_routing_table = *(routing_table_t *)arg;
-
     routing_table_add_entry(&publisher_routing_table,
                             "122.1.1.1", 32, "10.1.1.1", "eth1");
     routing_table_add_entry(&publisher_routing_table,
@@ -85,7 +82,7 @@ publisher_thread_fn(void *arg)
 }
 
 void
-create_publisher_thread(routing_table_t *publisher_routing_table)
+publisher_create_thread(void)
 {
     int s;
 
@@ -104,9 +101,21 @@ create_publisher_thread(routing_table_t *publisher_routing_table)
         handle_error_en(s, "pthread_attr_setdetachstate");
     }
 
-    s = pthread_create(&publisher_thread, &attr, publisher_thread_fn, publisher_routing_table);
+    s = pthread_create(&publisher_thread, &attr, publisher_thread_fn, (void*)0);
     if(0 != s)
     {
         handle_error_en(s, "pthread_create");
     }
+}
+
+void
+publisher_init_routing_table(void)
+{
+    routing_table_init(&publisher_routing_table);
+}
+
+routing_table_t *
+publisher_get_routing_table(void)
+{
+    return &publisher_routing_table;
 }

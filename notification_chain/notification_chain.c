@@ -27,7 +27,7 @@ nfc_register(nfc_t *nfc, nfc_element_t *nfc_element)
 }
 
 void
-nfc_invoke(nfc_t *nfc, int subscriber_id,
+nfc_invoke(nfc_t *nfc,
            void *arg, size_t arg_size, nfc_type_update_t nfc_type_update,
            char *key, size_t key_size)
 {
@@ -39,13 +39,13 @@ nfc_invoke(nfc_t *nfc, int subscriber_id,
     GLTHREAD_ITERATE_BEGIN(tmp_list, nfc_element_t, tmp_node){
         if(!(key && key_size && tmp_node->is_key_set && (key_size == tmp_node->key_size)))
         {
-            tmp_node->app_cb(subscriber_id, arg, arg_size, nfc_type_update);
+            tmp_node->app_cb(tmp_node->subscriptor_id, arg, arg_size, nfc_type_update);
         }
         else
         {
             if(0 == memcmp(key, tmp_node->key, key_size))
             {
-                tmp_node->app_cb(subscriber_id, arg, arg_size, nfc_type_update);
+                tmp_node->app_cb(tmp_node->subscriptor_id, arg, arg_size, nfc_type_update);
             }
         }
     }GLTHREAD_ITERATE_END;

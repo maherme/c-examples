@@ -4,6 +4,12 @@
 #include "routing_table.h"
 
 void
-create_publisher_thread(routing_table_t *publisher_routing_table);
+publisher_create_thread(void);
+
+void
+publisher_init_routing_table(void);
+
+routing_table_t *
+publisher_get_routing_table(void);
 
 #endif /* THREATED_PUBLISHER_H */
