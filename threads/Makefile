@@ -1,5 +1,5 @@
 BIN_DIR = ./bin
-CFLAGS = -Wall -Werror -pthread
+CFLAGS = -O -Wall -Werror -pthread
 
 %: %.c
 	@mkdir -p $(BIN_DIR)
