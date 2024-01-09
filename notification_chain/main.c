@@ -22,5 +22,5 @@ int main(int argc, char **argv)
     publisher_create_thread();
     printf("Publisher thread created\n");
 
-    pthread_exit(EXIT_SUCCESS);
+    pthread_exit(NULL);
 }
