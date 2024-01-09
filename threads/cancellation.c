@@ -17,7 +17,21 @@
 
 pthread_t threads[NUMBER_THREADS];
 
-void *
+static void
+memory_cleanup_handler(void *arg)
+{
+    printf("%s invoked ...\n", __FUNCTION__);
+    free(arg);
+}
+
+static void
+file_cleanup_handler(void *arg)
+{
+    printf("%s invoked ...\n", __FUNCTION__);
+    fclose((FILE *)arg);
+}
+
+static void *
 write_info_file(void *arg)
 {
     char file_name[FILE_NAME_MAX];
@@ -26,7 +40,6 @@ write_info_file(void *arg)
     int count = 0;
     FILE *file;
     int thread_id = *(int*)arg;
-    free(arg);
     int s;
     size_t written_elements;
 
@@ -36,11 +49,13 @@ write_info_file(void *arg)
         handle_error_en(s, "pthread_setcancelstate");
     }
 
-    s = pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+    s = pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, NULL);
     if(0 != s)
     {
         handle_error_en(s, "pthread_setcanceltype");
     }
+
+    pthread_cleanup_push(memory_cleanup_handler, arg);
 
     sprintf(file_name, "thread_%d.txt", thread_id);
 
@@ -48,8 +63,10 @@ write_info_file(void *arg)
     if(!file)
     {
         fprintf(stderr, "Error: could not open log file %s, errno = %d\n", file_name, errno);
-        exit(EXIT_FAILURE);
+        pthread_exit(NULL);
     }
+
+    pthread_cleanup_push(file_cleanup_handler, file);
 
     while(1)
     {
@@ -58,12 +75,15 @@ write_info_file(void *arg)
         if(written_elements != len)
         {
             perror("fwrite");
-            fclose(file);
-            exit(EXIT_FAILURE);
+            pthread_exit(NULL);
         }
         fflush(file);
         sleep(1);
+        pthread_testcancel();
     }
+
+    pthread_cleanup_pop(1);
+    pthread_cleanup_pop(1);
 
     return NULL;
 }
